@@ -1,20 +1,15 @@
-# FROM nginx:alpine 
-# COPY dist/angular-project /usr/share/nginx/html 
-# COPY nginx-custom.conf /etc/nginx/conf.d/default.conf 
-# EXPOSE 80 
-# CMD ["nginx", "-g", "daemon off;"]
+# Dockerfile
 
-
-
-FROM node:23-alpine3.20 AS angular_base
+# Stage 1: Build Angular application
+FROM node AS builder
 WORKDIR /app
-
-COPY . .
+COPY package.json package-lock.json ./
 RUN npm install
+COPY . .
 RUN npm run build
 
-FROM httpd:2.4-alpine
-WORKDIR /usr/local/apache2/htdocs
-COPY --from=angular_base /app/dist/angular-project .
-
-EXPOSE 4200
+# Stage 2: Serve Angular application using nginx
+FROM nginx:alpine
+COPY --from=builder /app/dist/fresh-app/browser /usr/share/nginx/html
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
