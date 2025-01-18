@@ -1,0 +1,11 @@
+version: '3.4'
+
+services:
+  angularproject:
+    container_name: angularproject
+    image: redgeca/angularproject
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+
+# Once done : docker push redgeca/azureiotr 
