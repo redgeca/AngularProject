@@ -4,6 +4,5 @@ import { AppComponent } from './app/app.component';
 import { importProvidersFrom } from '@angular/core';
 import { MqttModule } from 'ngx-mqtt';
 
-bootstrapApplication(
-  AppComponent, appConfig)
+bootstrapApplication(AppComponent, appConfig)
   .catch((err) => console.error(err));
